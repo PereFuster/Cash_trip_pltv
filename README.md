@@ -19,3 +19,7 @@
 						
 	Cash Trip				
 						
+Link: 
+
+https://apps.apple.com/us/app/cash-trip-solitaire-bingo/id6443911855
+
