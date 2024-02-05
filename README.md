@@ -1,23 +1,14 @@
 # Cash_trip_pltv
 
-系统	信息项	信息值	ip	key	分支	
+"域名" (yùmíng) in Chinese refers to a "domain name." It is the human-readable address used to locate resources on the internet, such as websites. A domain name serves as a more user-friendly way to identify and access websites, as it is easier to remember than the numerical IP address associated with a specific web server.
 
-通用后台	域名	bingotrip-ios.inaughtycat.com	3.14.97.12		skills	bingotrip-ios.vivaciousfawn.com
+For example, in the domain name "www.example.com," "example.com" is the domain name. These names are essential for navigating the internet, and individuals and organizations register domain names for their websites to make them accessible to users.
 
- app_key	MqQtyc0nAwuBpM4d				
-	
- secret_key	Dsr5kcs3phUqokhUDZBs9O7hEXIWOSqz				
-	
- string_for_iv	g90i1fMsnWBPWur0				
+"包名" (bāo míng) in Chinese refers to a "package name" in the context of software development, particularly in the Java programming language. In the Java programming language, packages are used to organize and structure code, and the package name is a unique identifier for a set of related classes and interfaces. It is the Bundle ID. 
 
- wudiads	app_key	 				
- app_secret					
-						
-  包名		com.trip.card.bingo.win.match.ios				
-  app id		6443911855				
-  数据库		bingotrip-ios-backend-1				
-						
-	Cash Trip				
+ - **域名**: bingotrip-ios.inaughtycat.com
+   
+ - **包名**: com.trip.card.bingo.win.match.ios			
 						
 Link: 
 
