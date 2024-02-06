@@ -1,43 +1,24 @@
 
-
-import pickle
-import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-import os
+
+import pandas as pd
 import requests
 from urllib.parse import urlencode
-from sklearn.preprocessing import LabelEncoder, OneHotEncoder, StandardScaler, MinMaxScaler
-from sklearn.model_selection import train_test_split, GridSearchCV, cross_val_score, RandomizedSearchCV
-from sklearn.metrics import accuracy_score, classification_report, mean_absolute_error, r2_score, d2_absolute_error_score, mean_absolute_percentage_error
-from sklearn.ensemble import RandomForestRegressor
-from sklearn.linear_model import HuberRegressor, LinearRegression
-from sklearn.feature_selection import SelectKBest
-from sklearn.pipeline import Pipeline
-import xgboost as xgb
-from dateutil.relativedelta import relativedelta
-from tqdm import tqdm, tqdm_notebook
 import numpy as np
-import random
-import json
 from datetime import datetime as dt, timedelta
 import re
-from sklearn.model_selection import TimeSeriesSplit
-from sklearn.compose import ColumnTransformer
-from sklearn.metrics import r2_score
-from sklearn.tree    import DecisionTreeRegressor
-from sklearn.tree    import DecisionTreeClassifier
-import itertools
 import datetime
 
-
 #region 1. Load BI tool information
+domain = 'bingotrip-ios.inaughtycat.com'
+package = 'com.trip.card.bingo.win.match.ios'
 today_date = today = datetime.date.today()
 start_date = today_date - pd.DateOffset(days = 95)
 end_date = today_date - pd.DateOffset(days = 7)
 
-api_details = {'bundle_id': 'com.mobilefox.bingo.ios', 'start': start_date, 'end':  end_date}
-api_url = 'http://bingowinner-ios.mobilefox.club/server/all_roi_by_user'
+api_details = {'bundle_id': package, 'start': start_date, 'end':  end_date}
+api_url = f'http://{domain}/server/all_roi_by_user'
 
 # Send a GET request to the API
 response = requests.post(api_url, api_details)
@@ -302,4 +283,43 @@ output.to_csv('bi_report_' + str(formatted_date) + '.csv', index = False)
 print(output)
 #endregion
 
+
+plt.figure(figsize=(20, 8))
+from datetime import datetime
+# Plotting the data
+a = bi_report_pred[bi_report_pred['date_dt'] > '2023-12-01'][bi_report_pred['date_dt'] <= '2024-01-25']
+plt.plot(a['date_dt'], a['recycle_worths_35day_rate'], marker='o', label='35-day')
+plt.plot(a['date_dt'], a['recycle_worths_28day_rate'], marker='o', label='28-day', color = 'green')
+plt.plot(a['date_dt'], a['day28_prediction'], marker='o', label='28-day (pred)', linestyle='dotted', color = 'green')
+plt.plot(a['date_dt'], a['recycle_worths_14day_rate'], marker='o', label='14-day', color = '#FF6F61')
+plt.plot(a['date_dt'], a['day14_prediction'], marker='o', label='14-day (pred)', linestyle='dotted', color='#FF6F61')  # Coralle Orange
+plt.plot(a['date_dt'], a['recycle_worths_7day_rate'], marker='o', label='7-day')
+
+# Plotting the 100-day forecast with a solid line
+plt.plot(a['date_dt'], a['day100_prediction'], marker='*', label='100 day forecast', color = '#800080', linestyle='dotted')
+
+# Set y-axis limit to start from 0
+plt.ylim(bottom=0)
+
+# Add vertical lines with solid black color
+current_date = datetime.now().date()
+target_date = current_date - timedelta(days=27)
+plt.axvline(target_date, color='black', linestyle='-', label='28 days before end')
+
+current_date = datetime.now().date()
+target_date = current_date - timedelta(days=13)
+plt.axvline(target_date, color='black', linestyle='-', label='14 days before end')
+
+current_date = datetime.now().date()
+target_date = current_date - timedelta(days=34)
+plt.axvline(target_date, color='black', linestyle='-', label='35 days before end')
+
+# Add labels and legend
+plt.xlabel('Date')
+plt.ylabel('Recovery Rate')
+plt.title('Recovery on the Nth (ROAS)')
+plt.legend()
+
+plt.grid(True)
+plt.show()
 
