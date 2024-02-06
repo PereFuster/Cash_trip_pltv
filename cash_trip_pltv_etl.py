@@ -1,7 +1,4 @@
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-
 import pandas as pd
 import requests
 from urllib.parse import urlencode
@@ -282,44 +279,3 @@ output.insert(1, 'media_source', 'All')
 output.to_csv('bi_report_' + str(formatted_date) + '.csv', index = False)
 print(output)
 #endregion
-
-
-plt.figure(figsize=(20, 8))
-from datetime import datetime
-# Plotting the data
-a = bi_report_pred[bi_report_pred['date_dt'] > '2023-12-01'][bi_report_pred['date_dt'] <= '2024-01-25']
-plt.plot(a['date_dt'], a['recycle_worths_35day_rate'], marker='o', label='35-day')
-plt.plot(a['date_dt'], a['recycle_worths_28day_rate'], marker='o', label='28-day', color = 'green')
-plt.plot(a['date_dt'], a['day28_prediction'], marker='o', label='28-day (pred)', linestyle='dotted', color = 'green')
-plt.plot(a['date_dt'], a['recycle_worths_14day_rate'], marker='o', label='14-day', color = '#FF6F61')
-plt.plot(a['date_dt'], a['day14_prediction'], marker='o', label='14-day (pred)', linestyle='dotted', color='#FF6F61')  # Coralle Orange
-plt.plot(a['date_dt'], a['recycle_worths_7day_rate'], marker='o', label='7-day')
-
-# Plotting the 100-day forecast with a solid line
-plt.plot(a['date_dt'], a['day100_prediction'], marker='*', label='100 day forecast', color = '#800080', linestyle='dotted')
-
-# Set y-axis limit to start from 0
-plt.ylim(bottom=0)
-
-# Add vertical lines with solid black color
-current_date = datetime.now().date()
-target_date = current_date - timedelta(days=27)
-plt.axvline(target_date, color='black', linestyle='-', label='28 days before end')
-
-current_date = datetime.now().date()
-target_date = current_date - timedelta(days=13)
-plt.axvline(target_date, color='black', linestyle='-', label='14 days before end')
-
-current_date = datetime.now().date()
-target_date = current_date - timedelta(days=34)
-plt.axvline(target_date, color='black', linestyle='-', label='35 days before end')
-
-# Add labels and legend
-plt.xlabel('Date')
-plt.ylabel('Recovery Rate')
-plt.title('Recovery on the Nth (ROAS)')
-plt.legend()
-
-plt.grid(True)
-plt.show()
-
